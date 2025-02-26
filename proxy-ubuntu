@@ -1,0 +1,66 @@
+**Proxy Config Format:**
+
+`proxy_http=username:password@proxy-host:port`
+
+### Single User Temporary Settings
+
+When you do not need to force the system to be under the proxy.
+
+1. Open a Terminal window where you need proxy access.
+2. Set and export the HTTP_PROXY variable.
+
+    `export HTTP_PROXY=user:pass@my.proxy.server:8080`
+
+3. Set and export the HTTPS_PROXY variable.
+
+    `export HTTPS_PROXY=user:pass@my.proxy.server:8081`
+
+4. Set and export the NO_PROXY variable to prevent local traffic from being sent to the proxy.
+
+    `export NO_PROXY=localhost,127.0.0.1,*.my.lan.domain`
+
+### Single User Persistent Proxy Settings
+
+1. Open your bash profile file into a text editor. If you use other terminals like zsh, open their specific file, in case zsh would be `~/.zshrc`.
+
+    `vi ~/.bash_profile`
+
+2. Add the following lines, modifying them to match your environment.
+
+    ```
+    export http_proxy=username:password@proxyhost.com:8080
+    export https_proxy=username:password@proxyhost.com:8081
+    exprot no_proxy=localhost, 127.0.0.1, *.my.lan
+    ```
+
+3. Save your settings.
+4. The proxy settings will be applied the next time you start a session, by logging into the server or opening a new Terminal window from a Desktop.
+5. To force apply your new proxy settings in the current Terminal session, execute the source command against your bash profile.
+
+    `source ~/.bash_profile`
+
+### All Users
+
+1. Using an administrator account, open `/etc/environment` into a text editor.
+
+    `sudo vi /etc/environment`
+
+2. Add the following lines, modifying them to fit your environment. Username and password may be omitted, if not required.
+
+    ```
+    http_proxy="http://<username>:<password>@<hostname>:<port>/"
+    https_proxy="http://<username>:<password>@<hostname>:<port>/"
+    ftp_proxy="http://<username>:<password>@<hostname>:<port>/"
+    no_proxy="<pattern>,<pattern>,...
+    ```
+
+    For example, if you do not need to enter a username or password, and your proxy server is my.proxyserver.net at port 8080, and you do not want local traffic going through the proxy, you would enter the following:
+
+    ```
+    http_proxy="http://my.proxyserver.net:8080/"
+    https_proxy="http://my.proxyserver.net:8080/"
+    ftp_proxy="http://my.proxyserver.net:8080/"
+    no_proxy="localhost,127.0.0.1,::1
+    ```
+
+3. Save your changes and exit the text editor.
